@@ -9,7 +9,9 @@ type pieceTable struct {
 }
 
 type piece struct {
-	moo int
+	offset int
+	length int
+	added  bool
 }
 
 func New(buf string) *pieceTable {
