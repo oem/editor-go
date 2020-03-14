@@ -27,3 +27,9 @@ func NewFromFile(filename string) (*pieceTable, error) {
 	}
 	return New(string(f)), nil
 }
+
+func (pt *pieceTable) Delete(start, end int) {
+	before := piece{offset: 0, length: start + 1, added: false}
+	after := piece{offset: start, length: len(pt.original) - (end + 1), added: false}
+	pt.pieces = []piece{before, after}
+}
