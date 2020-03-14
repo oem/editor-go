@@ -15,7 +15,9 @@ type piece struct {
 }
 
 func New(buf string) *pieceTable {
-	return &pieceTable{original: buf}
+	table := &pieceTable{original: buf}
+	table.pieces = append(table.pieces, piece{offset: 0, length: len(table.original), added: false})
+	return table
 }
 
 func NewFromFile(filename string) (*pieceTable, error) {
