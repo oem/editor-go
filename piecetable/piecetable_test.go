@@ -48,7 +48,7 @@ func TestNewFromFile(t *testing.T) {
 	}
 }
 
-func TestDelete(t *testing.T) {
+func TestDeletingOnce(t *testing.T) {
 	pt := New("moo foo goo")
 	pt.Delete(4, 7)
 	if len(pt.pieces) != 2 {
@@ -68,4 +68,7 @@ func TestDelete(t *testing.T) {
 	if pt.pieces[1].offset != 8 {
 		t.Errorf("Expected first piece to have an offset of 8, got %v", pt.pieces[1].offset)
 	}
+}
+
+func TestDeletingTwice(t *testing.T) {
 }
