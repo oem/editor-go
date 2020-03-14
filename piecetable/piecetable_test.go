@@ -61,4 +61,11 @@ func TestDelete(t *testing.T) {
 	if pt.pieces[1].length != 3 {
 		t.Errorf("Expected second piece length to be until end of original buffer(3), but was %v", pt.pieces[1].length)
 	}
+
+	if pt.pieces[0].offset != 0 {
+		t.Errorf("Expected first piece to have an offset of zero, got %v", pt.pieces[0].offset)
+	}
+	if pt.pieces[1].offset != 8 {
+		t.Errorf("Expected first piece to have an offset of 8, got %v", pt.pieces[1].offset)
+	}
 }
