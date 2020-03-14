@@ -28,8 +28,8 @@ func NewFromFile(filename string) (*table, error) {
 	return New(string(f)), nil
 }
 
-func (pt *table) Delete(start, end int) {
-	before := piece{offset: 0, length: start + 1, added: false}
-	after := piece{offset: end + 1, length: len(pt.original) - (end + 1), added: false}
+func (pt *table) Delete(offset, length int) {
+	before := piece{offset: 0, length: offset, added: false}
+	after := piece{offset: offset + length, length: len(pt.original) - length - offset, added: false}
 	pt.pieces = []piece{before, after}
 }

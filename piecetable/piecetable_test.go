@@ -50,12 +50,12 @@ func TestNewFromFile(t *testing.T) {
 
 func TestDeletingOnce(t *testing.T) {
 	pt := New("moo foo goo")
-	pt.Delete(4, 7)
+	pt.Delete(4, 4)
 	if len(pt.pieces) != 2 {
 		t.Errorf("Expected two pieces after delete, got %v", len(pt.pieces))
 	}
 
-	if pt.pieces[0].length != 5 {
+	if pt.pieces[0].length != 4 {
 		t.Errorf("Expected first piece length to be until start of deletion(5), but was %v", pt.pieces[0].length)
 	}
 	if pt.pieces[1].length != 3 {
@@ -71,4 +71,7 @@ func TestDeletingOnce(t *testing.T) {
 }
 
 func TestDeletingTwice(t *testing.T) {
+	pt := New("moo foo goo")
+	pt.Delete(4, 7)
+	pt.Delete(0, 1)
 }
