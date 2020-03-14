@@ -25,5 +25,5 @@ func NewFromFile(filename string) (*pieceTable, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &pieceTable{original: string(f)}, nil
+	return New(string(f)), nil
 }
