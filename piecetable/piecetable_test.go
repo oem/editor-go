@@ -68,10 +68,30 @@ func TestDeletingOnce(t *testing.T) {
 	if pt.pieces[1].offset != 8 {
 		t.Errorf("Expected first piece to have an offset of 8, got %v", pt.pieces[1].offset)
 	}
+
+	if pt.Get() != "moo goo" {
+		t.Errorf("Expected 'moo goo' after Delete, got '%s' instead", pt.Get())
+	}
 }
 
 func TestDeletingTwice(t *testing.T) {
 	pt := New("moo foo goo")
-	pt.Delete(4, 7)
+	pt.Delete(4, 4)
 	pt.Delete(0, 1)
+	want := "oo goo"
+	got := pt.Get()
+
+	if got != want {
+		t.Errorf("Expected '%s' after two deletes, got '%s'", want, got)
+	}
+}
+
+func TestGet(t *testing.T) {
+	want := "moo foo goo"
+	pt := New(want)
+	got := pt.Get()
+
+	if got != want {
+		t.Errorf("Expected '%s', got '%s' instead", want, got)
+	}
 }

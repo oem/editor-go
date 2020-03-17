@@ -31,3 +31,16 @@ func (pt *table) Delete(offset, length int) {
 	after := piece{offset: offset + length, length: len(pt.original) - length - offset, added: false}
 	pt.pieces = []piece{before, after}
 }
+
+func (pt *table) Get() string {
+	sequence := ""
+	for _, piece := range pt.pieces {
+		if piece.added {
+			sequence += pt.add[piece.offset : piece.offset+piece.length]
+		} else {
+			sequence += pt.original[piece.offset : piece.offset+piece.length]
+		}
+
+	}
+	return sequence
+}
