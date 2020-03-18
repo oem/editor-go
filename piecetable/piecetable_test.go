@@ -48,6 +48,16 @@ func TestNewFromFile(t *testing.T) {
 	}
 }
 
+func TestGet(t *testing.T) {
+	want := "moo foo goo"
+	pt := New(want)
+	got := pt.Get()
+
+	if got != want {
+		t.Errorf("Expected '%s', got '%s' instead", want, got)
+	}
+}
+
 func TestDeletingOnce(t *testing.T) {
 	pt := New("moo foo goo")
 	pt.Delete(4, 4)
@@ -83,15 +93,5 @@ func TestDeletingTwice(t *testing.T) {
 
 	if got != want {
 		t.Errorf("Expected '%s' after two deletes, got '%s'", want, got)
-	}
-}
-
-func TestGet(t *testing.T) {
-	want := "moo foo goo"
-	pt := New(want)
-	got := pt.Get()
-
-	if got != want {
-		t.Errorf("Expected '%s', got '%s' instead", want, got)
 	}
 }

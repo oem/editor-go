@@ -1,6 +1,9 @@
 package piecetable
 
-import "io/ioutil"
+import (
+	"fmt"
+	"io/ioutil"
+)
 
 type table struct {
 	original string
@@ -43,4 +46,15 @@ func (pt *table) Get() string {
 
 	}
 	return sequence
+}
+
+func (pt *table) pieceAt(offset int) (pieceIndex int, pieceOffset int, err error) {
+	remaining := offset
+	for i, piece := range pt.pieces {
+		if remaining < piece.length {
+			return i, piece.offset + remaining, nil
+		}
+		remaining -= piece.offset
+	}
+	return 0, 0, fmt.Errorf("No piece found at offset %v", offset)
 }
