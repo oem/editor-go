@@ -1,6 +1,8 @@
 package piecetable
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestNew(t *testing.T) {
 	expected := "moo"
@@ -86,8 +88,14 @@ func TestDeletingOnce(t *testing.T) {
 
 func TestDeletingTwice(t *testing.T) {
 	pt := New("moo foo goo")
-	pt.Delete(4, 4)
-	pt.Delete(0, 1)
+	err := pt.Delete(4, 4)
+	if err != nil {
+		t.Errorf("Expected Delete(4, 4) to work but got error: %v", err)
+	}
+	err = pt.Delete(0, 1)
+	if err != nil {
+		t.Errorf("Expected Delete(0, 1) to work but got error: %v", err)
+	}
 	want := "oo goo"
 	got := pt.Get()
 

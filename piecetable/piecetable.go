@@ -39,7 +39,7 @@ func (pt *table) Delete(offset, length int) error {
 		return err
 	}
 	if firstIndex == lastIndex {
-		piece := pt.pieces[firstIndex]
+		piece := &pt.pieces[firstIndex]
 		if firstOffset == piece.offset {
 			piece.offset += length
 			piece.length -= length
@@ -63,6 +63,9 @@ func (pt *table) Delete(offset, length int) error {
 			filtered = append(filtered, piece)
 		}
 	}
+	newPieces := append(pt.pieces[:firstIndex], filtered...)
+	newPieces = append(newPieces, pt.pieces[lastIndex-firstIndex+1:]...)
+	pt.pieces = newPieces
 	return err
 }
 
