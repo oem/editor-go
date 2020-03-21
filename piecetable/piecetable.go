@@ -29,10 +29,41 @@ func NewFromFile(filename string) (*table, error) {
 	return New(string(f)), nil
 }
 
-func (pt *table) Delete(offset, length int) {
-	before := piece{offset: 0, length: offset, added: false}
-	after := piece{offset: offset + length, length: len(pt.original) - length - offset, added: false}
-	pt.pieces = []piece{before, after}
+func (pt *table) Delete(offset, length int) error {
+	firstIndex, firstOffset, err := pt.pieceAt(offset)
+	if err != nil {
+		return err
+	}
+	lastIndex, lastOffset, err := pt.pieceAt(offset + length)
+	if err != nil {
+		return err
+	}
+	if firstIndex == lastIndex {
+		piece := pt.pieces[firstIndex]
+		if firstOffset == piece.offset {
+			piece.offset += length
+			piece.length -= length
+			return err
+		}
+		if lastOffset == piece.offset+piece.length {
+			piece.length -= length
+			return err
+		}
+	}
+
+	first := pt.pieces[firstIndex]
+	last := pt.pieces[lastIndex]
+	deleted := []piece{
+		{added: first.added, offset: first.offset, length: firstOffset - first.offset},
+		{added: last.added, offset: lastOffset, length: last.length - (lastOffset - last.offset)},
+	}
+	filtered := []piece{}
+	for _, piece := range deleted {
+		if piece.length > 0 {
+			filtered = append(filtered, piece)
+		}
+	}
+	return err
 }
 
 func (pt *table) Get() string {
