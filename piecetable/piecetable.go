@@ -70,7 +70,17 @@ func (pt *table) Delete(offset, length int) error {
 }
 
 func (pt *table) Insert(new string, offset int) error {
-	return nil
+	addOffset := len(pt.add)
+	pt.add += new
+	pieceIndex, pieceOffset, err := pt.pieceAt(offset)
+	if err != nil {
+		return err
+	}
+	original := &pt.pieces[pieceIndex]
+	if endOfAddBuffer(original, pieceOffset, addOffset) {
+	}
+
+	return err
 }
 
 func (pt *table) Get() string {
@@ -95,4 +105,8 @@ func (pt *table) pieceAt(offset int) (pieceIndex int, pieceOffset int, err error
 		remaining -= piece.offset
 	}
 	return 0, 0, fmt.Errorf("No piece found at offset %v", offset)
+}
+
+func endOfAddBuffer(original *piece, pieceOffset, addOffset int) bool {
+	return original.added && pieceOffset == (original.offset+original.length) && (original.offset+original.length == addOffset)
 }
