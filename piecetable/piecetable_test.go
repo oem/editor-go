@@ -103,3 +103,17 @@ func TestDeletingTwice(t *testing.T) {
 		t.Errorf("Expected '%s' after two deletes, got '%s'", want, got)
 	}
 }
+
+func TestInsertingOnce(t *testing.T) {
+	pt := New("moo foo goo")
+	err := pt.Insert("aha ", 3)
+	if err != nil {
+		t.Errorf("Expected Insert('aha ', 3) to be successful, got %v instead", err)
+	}
+	want := "moo aha foo goo"
+	got := pt.Get()
+
+	if got != want {
+		t.Errorf("Expected %s, got %s instead", want, got)
+	}
+}

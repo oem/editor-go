@@ -69,6 +69,10 @@ func (pt *table) Delete(offset, length int) error {
 	return err
 }
 
+func (pt *table) Insert(new string, offset int) error {
+	return nil
+}
+
 func (pt *table) Get() string {
 	sequence := ""
 	for _, piece := range pt.pieces {
