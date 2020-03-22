@@ -117,3 +117,16 @@ func TestInsertingOnce(t *testing.T) {
 		t.Errorf("Expected %s, got %s instead", want, got)
 	}
 }
+
+func TestInsertingEmpty(t *testing.T) {
+	want := "moo goo"
+	pt := New(want)
+	err := pt.Insert("", 1)
+	if err != nil {
+		t.Errorf("Expected insert to be successful, got %v instead", err)
+	}
+	got := pt.Get()
+	if got != want {
+		t.Errorf("Expected %s, got %s instead", want, got)
+	}
+}
