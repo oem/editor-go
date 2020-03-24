@@ -78,7 +78,23 @@ func (pt *table) Insert(new string, offset int) error {
 	}
 	original := &pt.pieces[pieceIndex]
 	if endOfAddBuffer(original, pieceOffset, addOffset) {
+		original.length += len(new)
 	}
+
+	inserted := []piece{
+		{added: original.added, offset: original.offset, length: pieceOffset - original.offset},
+		{added: true, offset: addOffset, length: len(new)},
+		{added: original.added, offset: pieceOffset, length: original.length - (pieceOffset - original.offset)},
+	}
+	filtered := []piece{}
+	for _, piece := range inserted {
+		if piece.length > 0 {
+			filtered = append(filtered, piece)
+		}
+	}
+	newPieces := append(pt.pieces[:pieceIndex], inserted...)
+	newPieces = append(newPieces, pt.pieces[pieceIndex+1:]...)
+	pt.pieces = newPieces
 
 	return err
 }

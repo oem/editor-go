@@ -105,12 +105,12 @@ func TestDeletingTwice(t *testing.T) {
 }
 
 func TestInsertingOnce(t *testing.T) {
-	pt := New("moo foo goo")
-	err := pt.Insert("aha ", 3)
+	pt := New("0123456789")
+	err := pt.Insert("MOO", 3)
 	if err != nil {
 		t.Errorf("Expected Insert('aha ', 3) to be successful, got %v instead", err)
 	}
-	want := "moo aha foo goo"
+	want := "012MOO3456789"
 	got := pt.Get()
 
 	if got != want {
