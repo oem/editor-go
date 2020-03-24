@@ -118,6 +118,24 @@ func TestInsertingOnce(t *testing.T) {
 	}
 }
 
+func TestInsertingMultipleTimes(t *testing.T) {
+	pt := New("0123456789")
+	err := pt.Insert("MOO", 9)
+	if err != nil {
+		t.Errorf("Expected Insert('aha ', 3) to be successful, got %v instead", err)
+	}
+	err = pt.Insert("FOO", 2)
+	if err != nil {
+		t.Errorf("Expected Insert('aha ', 3) to be successful, got %v instead", err)
+	}
+	want := "01FOO2345678MOO9"
+	got := pt.Get()
+
+	if got != want {
+		t.Errorf("Expected %s, got %s instead", want, got)
+	}
+}
+
 func TestInsertingEmpty(t *testing.T) {
 	want := "moo goo"
 	pt := New(want)
