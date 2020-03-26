@@ -3,6 +3,7 @@ package piecetable
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 )
 
 type table struct {
@@ -73,6 +74,7 @@ func (pt *table) Insert(new string, offset int) error {
 	addOffset := len(pt.add)
 	pt.add += new
 	pieceIndex, pieceOffset, err := pt.pieceAt(offset)
+	log.Printf("piece offset at: %v", pieceOffset)
 	if err != nil {
 		return err
 	}
@@ -95,6 +97,8 @@ func (pt *table) Insert(new string, offset int) error {
 	newPieces := append(pt.pieces[:pieceIndex], inserted...)
 	newPieces = append(newPieces, pt.pieces[pieceIndex+1:]...)
 	pt.pieces = newPieces
+	log.Printf("add buffer: %s", pt.add)
+	log.Printf("pieces: %v", pt.pieces)
 
 	return err
 }
