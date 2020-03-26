@@ -74,13 +74,14 @@ func (pt *table) Insert(new string, offset int) error {
 	addOffset := len(pt.add)
 	pt.add += new
 	pieceIndex, pieceOffset, err := pt.pieceAt(offset)
-	log.Printf("piece offset at: %v", pieceOffset)
+	log.Printf("piece at: %v / %v", pieceIndex, pieceOffset)
 	if err != nil {
 		return err
 	}
 	original := &pt.pieces[pieceIndex]
 	if endOfAddBuffer(original, pieceOffset, addOffset) {
 		original.length += len(new)
+		return nil
 	}
 
 	inserted := []piece{
@@ -94,9 +95,10 @@ func (pt *table) Insert(new string, offset int) error {
 			filtered = append(filtered, piece)
 		}
 	}
-	newPieces := append(pt.pieces[:pieceIndex], inserted...)
+	newPieces := append(pt.pieces[:pieceIndex], filtered...)
 	newPieces = append(newPieces, pt.pieces[pieceIndex+1:]...)
 	pt.pieces = newPieces
+	log.Printf("sequence: %v", pt.Get())
 	log.Printf("add buffer: %s", pt.add)
 	log.Printf("pieces: %v", pt.pieces)
 
@@ -119,7 +121,7 @@ func (pt *table) Get() string {
 func (pt *table) pieceAt(offset int) (pieceIndex int, pieceOffset int, err error) {
 	remaining := offset
 	for i, piece := range pt.pieces {
-		if remaining < piece.length {
+		if remaining <= piece.length {
 			return i, piece.offset + remaining, nil
 		}
 		remaining -= piece.offset
