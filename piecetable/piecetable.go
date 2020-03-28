@@ -96,10 +96,8 @@ func (pt *table) Insert(new string, offset int) error {
 		}
 	}
 	newPieces := append(pt.pieces[:pieceIndex], filtered...)
-	newPieces = append(newPieces, pt.pieces[pieceIndex+1:]...)
-	pt.pieces = newPieces
+	pt.pieces = append(newPieces, pt.pieces[pieceIndex+1:]...)
 	log.Printf("sequence: %v", pt.Get())
-	log.Printf("add buffer: %s", pt.add)
 	log.Printf("pieces: %v", pt.pieces)
 
 	return err
