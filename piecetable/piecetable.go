@@ -18,10 +18,16 @@ type piece struct {
 	added  bool
 }
 
+// New is creating a new piecetable, using the provided string as original buffer.
+// Arguments: buf string
+// Returns: *table
 func New(buf string) *table {
 	return &table{original: buf, pieces: []piece{{offset: 0, length: len(buf), added: false}}}
 }
 
+// NewFromFile will try to open the file and instantiate a piecetable.
+// Arguments: filename string
+// Returns: *table, error
 func NewFromFile(filename string) (*table, error) {
 	f, err := ioutil.ReadFile(filename)
 	if err != nil {
