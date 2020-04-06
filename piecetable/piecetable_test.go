@@ -148,3 +148,11 @@ func TestInsertingEmpty(t *testing.T) {
 		t.Errorf("Expected %s, got %s instead", want, got)
 	}
 }
+
+func TestInsertOutOfBounds(t *testing.T) {
+	pt := New("moo")
+	err := pt.Insert("foo", 100)
+	if err == nil {
+		t.Errorf("Expected error when trying to insert out of bounds, succeeded instead")
+	}
+}
