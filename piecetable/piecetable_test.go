@@ -104,6 +104,19 @@ func TestDeletingTwice(t *testing.T) {
 	}
 }
 
+func TestShorteningLastPiece(t *testing.T) {
+	pt := New("foo")
+	err := pt.Delete(2, 1)
+	if err != nil {
+		t.Errorf("Expected deleting to be successful but got error: %v", err)
+	}
+	want := "fo"
+	got := pt.Get()
+	if got != want {
+		t.Errorf("Expected %s, got %s instead", want, got)
+	}
+}
+
 func TestInsertingOnce(t *testing.T) {
 	pt := New("0123456789")
 	err := pt.Insert("MOO", 3)

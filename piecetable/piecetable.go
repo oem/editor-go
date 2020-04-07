@@ -53,7 +53,7 @@ func (pt *table) Delete(offset, length int) error {
 		}
 		if lastOffset == piece.offset+piece.length {
 			piece.length -= length
-			return err
+			return nil
 		}
 	}
 
