@@ -162,3 +162,20 @@ func TestInsertOutOfBounds(t *testing.T) {
 		t.Errorf("Expected error when trying to insert out of bounds, succeeded instead")
 	}
 }
+
+func TestInsertToAddBufferPiece(t *testing.T) {
+	pt := New("")
+	err := pt.Insert("foo", 0)
+	if err != nil {
+		t.Errorf("Expected inserting to be successful, got error %v instead", err)
+	}
+	err = pt.Insert("moo", 3)
+	if err != nil {
+		t.Errorf("Expected inserting to be successful, got error %v instead", err)
+	}
+	want := "foomoo"
+	got := pt.Get()
+	if got != want {
+		t.Errorf("Expected %v, got %s instead", want, got)
+	}
+}
