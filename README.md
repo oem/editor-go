@@ -2,7 +2,7 @@
 
 # Replay
 
-This package implements data strucutes commonly used for text editing.
+This package implements data structures commonly used for text editing.
 
 The piece table is the first such data structure, have a look at the piecetable package.
 
