@@ -3,6 +3,7 @@ package piecetable
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 )
 
 type table struct {
@@ -93,12 +94,14 @@ func (pt *table) Insert(new string, offset int) error {
 		{added: true, offset: addOffset, length: len(new)},
 		{added: original.added, offset: pieceOffset, length: original.length - (pieceOffset - original.offset)},
 	}
+	log.Printf("inserted: %v", inserted)
 	filtered := []piece{}
 	for _, piece := range inserted {
 		if piece.length > 0 {
 			filtered = append(filtered, piece)
 		}
 	}
+	log.Printf("filtered: %v", filtered)
 	newPieces := append(pt.pieces[:pieceIndex], filtered...)
 	pt.pieces = append(newPieces, pt.pieces[pieceIndex+1:]...)
 
