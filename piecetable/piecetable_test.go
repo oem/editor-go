@@ -124,12 +124,18 @@ func TestInsertingMultipleTimes(t *testing.T) {
 	if err != nil {
 		t.Errorf("Expected Insert('MOO ', 9) to be successful, got %v instead", err)
 	}
+	want := "012345678MOO9"
+	got := pt.Get()
+	if got != want {
+		t.Errorf("Expected %s, got %s instead", want, got)
+	}
+
 	err = pt.Insert("FOO", 3)
 	if err != nil {
 		t.Errorf("Expected Insert('FOO ', 3) to be successful, got %v instead", err)
 	}
-	want := "012FOO345678MOO9"
-	got := pt.Get()
+	want = "012FOO345678MOO9"
+	got = pt.Get()
 
 	if got != want {
 		t.Errorf("Expected %s, got %s instead", want, got)
