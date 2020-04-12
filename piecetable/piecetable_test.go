@@ -192,3 +192,24 @@ func TestInsertToAddBufferPiece(t *testing.T) {
 		t.Errorf("Expected %v, got %s instead", want, got)
 	}
 }
+
+func TestInsertsAndDeletes(t *testing.T) {
+	pt := New("")
+	err := pt.Insert("foo", 0)
+	if err != nil {
+		t.Errorf("Expected inserting to be successful, got error %v instead", err)
+	}
+	err = pt.Delete(2, 1)
+	if err != nil {
+		t.Errorf("Expected deleting to be successful, got error %v instead", err)
+	}
+	err = pt.Insert("xx", 1)
+	if err != nil {
+		t.Errorf("Expected inserting to be successful, got error %v instead", err)
+	}
+	got := pt.Get()
+	want := "fxxo"
+	if got != want {
+		t.Errorf("Expected %s, got %s", want, got)
+	}
+}
