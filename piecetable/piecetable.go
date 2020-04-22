@@ -5,7 +5,8 @@ import (
 	"io/ioutil"
 )
 
-type table struct {
+// Table exposes a simple piece-table
+type Table struct {
 	original string
 	add      string
 	pieces   []piece
@@ -19,15 +20,15 @@ type piece struct {
 
 // New is creating a new piecetable, using the provided string as original buffer.
 // Arguments: buf string
-// Returns: *table
-func New(buf string) *table {
-	return &table{original: buf, pieces: []piece{{offset: 0, length: len(buf), added: false}}}
+// Returns: *Table
+func New(buf string) *Table {
+	return &Table{original: buf, pieces: []piece{{offset: 0, length: len(buf), added: false}}}
 }
 
 // NewFromFile will try to open the file and instantiate a piecetable.
 // Arguments: filename string
 // Returns: *table, error
-func NewFromFile(filename string) (*table, error) {
+func NewFromFile(filename string) (*Table, error) {
 	f, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
@@ -35,7 +36,8 @@ func NewFromFile(filename string) (*table, error) {
 	return New(string(f)), nil
 }
 
-func (pt *table) Delete(offset, length int) error {
+// Delete will remove and rechunk parts of pieces at the offset/length
+func (pt *Table) Delete(offset, length int) error {
 	firstIndex, firstOffset, err := pt.pieceAt(offset)
 	if err != nil {
 		return err
@@ -75,7 +77,8 @@ func (pt *table) Delete(offset, length int) error {
 	return err
 }
 
-func (pt *table) Insert(new string, offset int) error {
+// Insert adds new content to the add buffer and created pieces that point to the new text
+func (pt *Table) Insert(new string, offset int) error {
 	addOffset := len(pt.add)
 	pt.add += new
 	pieceIndex, pieceOffset, err := pt.pieceAt(offset)
@@ -107,7 +110,8 @@ func (pt *table) Insert(new string, offset int) error {
 	return err
 }
 
-func (pt *table) Get() string {
+// Get returns the current state of the piece-table
+func (pt *Table) Get() string {
 	sequence := ""
 	for _, piece := range pt.pieces {
 		if piece.added {
@@ -120,7 +124,7 @@ func (pt *table) Get() string {
 	return sequence
 }
 
-func (pt *table) pieceAt(offset int) (pieceIndex int, pieceOffset int, err error) {
+func (pt *Table) pieceAt(offset int) (pieceIndex int, pieceOffset int, err error) {
 	remaining := offset
 	for i, piece := range pt.pieces {
 		if remaining <= piece.length {
