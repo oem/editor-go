@@ -1,6 +1,4 @@
-![replay](docs/logo.png)
-
-# Replay
+# editor-go
 
 This package implements data structures commonly used for text editing.
 
@@ -11,10 +9,10 @@ The piece table is the first such data structure, have a look at the piecetable 
 Example usage:
 
 ```go
-import "github.com/oem/replay/piecetable"
+import "github.com/oem/editor-go/piecetable"
 
 pt := piecetable.New("an example string")
 pt.Insert("unremarkable ", 3)
-fmt.Println(pt, pt.Get()) 
+fmt.Println(pt, pt.Get())
 // &{an example string unremarkable  [{0 0 false} {0 3 false} {0 13 true} {3 14 false}]} an unremarkable example string
 ```
