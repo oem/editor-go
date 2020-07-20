@@ -5,6 +5,6 @@ COPY . /app
 RUN CGO_ENABLED=0 go install --tags netgo -v -a --ldflags '-w -extldflags "-static"'
 
 FROM scratch
-COPY --from=builder /go/bin/replay /
+COPY --from=builder /go/bin/editor-go /
 
-CMD [ "/replay" ]
+CMD [ "/editor-go" ]
