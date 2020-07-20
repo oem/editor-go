@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/oem/replay/piecetable"
+	"github.com/oem/editor-go/piecetable"
 )
 
 func main() {
