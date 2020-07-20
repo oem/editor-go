@@ -62,7 +62,11 @@ func TestGet(t *testing.T) {
 
 func TestDeletingOnce(t *testing.T) {
 	pt := New("moo foo goo")
-	pt.Delete(4, 4)
+	err := pt.Delete(4, 4)
+	if err != nil {
+		t.Errorf("Expected successful delete, got %v", err)
+	}
+
 	if len(pt.pieces) != 2 {
 		t.Errorf("Expected two pieces after delete, got %v", len(pt.pieces))
 	}
